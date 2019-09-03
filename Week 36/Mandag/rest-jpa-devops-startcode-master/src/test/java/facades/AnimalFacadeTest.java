@@ -1,38 +1,35 @@
 package facades;
 
+import org.junit.jupiter.api.*;
 import utils.EMF_Creator;
-import entities.RenameMe;
+import entities.Animal;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import utils.Settings;
+
 import utils.EMF_Creator.DbSelector;
 import utils.EMF_Creator.Strategy;
 
 //Uncomment the line below, to temporarily disable this test
-//@Disabled
-public class FacadeExampleTest {
+@Disabled
+public class AnimalFacadeTest {
 
     private static EntityManagerFactory emf;
-    private static FacadeExample facade;
+    private static AnimalFacade facade;
 
-    public FacadeExampleTest() {
+    public AnimalFacadeTest() {
     }
 
     //@BeforeAll
     public static void setUpClass() {
         emf = EMF_Creator.createEntityManagerFactory(
                 "pu",
-                "jdbc:mysql://localhost:3307/startcode_test",
+                "jdbc:mysql://localhost:3307/animals_test",
                 "dev",
                 "ax2",
                 EMF_Creator.Strategy.CREATE);
-        facade = FacadeExample.getFacadeExample(emf);
+        facade = AnimalFacade.getFacadeExample(emf);
     }
 
     /*   **** HINT **** 
@@ -44,7 +41,7 @@ public class FacadeExampleTest {
     @BeforeAll
     public static void setUpClassV2() {
        emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST,Strategy.DROP_AND_CREATE);
-       facade = FacadeExample.getFacadeExample(emf);
+       facade = AnimalFacade.getFacadeExample(emf);
     }
 
     @AfterAll
@@ -60,8 +57,11 @@ public class FacadeExampleTest {
         try {
             em.getTransaction().begin();
             em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
-            em.persist(new RenameMe("Some txt", "More text"));
-            em.persist(new RenameMe("aaa", "bbb"));
+            Animal ani0 = new Animal("Crow","Corvus","Corvidae","https://en.wikipedia.org/wiki/Crow");
+            Animal ani1 = new Animal("Polar Bear", "Ursus", "Ursidae", "https://en.wikipedia.org/wiki/Polar_bear");
+            Animal ani2 = new Animal("Lion", "Panthera", "Felidae", "https://en.wikipedia.org/wiki/Lion");
+            Animal ani3 = new Animal("Great White Shark", "Carcharodon", "Lamnidae", "https://en.wikipedia.org/wiki/Great_white_shark");
+
 
             em.getTransaction().commit();
         } finally {
@@ -77,7 +77,7 @@ public class FacadeExampleTest {
     // TODO: Delete or change this method 
     @Test
     public void testAFacadeMethod() {
-        assertEquals(2, facade.getRenameMeCount(), "Expects two rows in the database");
+        assertEquals(2, facade.getAnimalCount(), "Expects two rows in the database");
     }
 
 }
